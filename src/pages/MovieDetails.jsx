@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { getMovieById } from "../api/tvmaze";
+import { getMovieById } from "../api/tmdb";
 import { useWatchlist } from "../context/WatchListContext";
 
 export default function MovieDetails() {

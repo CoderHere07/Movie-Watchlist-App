@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { searchMovies } from "../api/tvmaze";
+import { getPopularMovies } from "../api/tmdb";
 import { useWatchlist } from "../context/WatchListContext";
 import SearchBar from "../components/SearchBar";
 import MovieList from "../components/MovieList";
@@ -16,20 +16,19 @@ export default function Home() {
     const controller = new AbortController();
 
     async function load() {
-      try {
+    try {
         setLoading(true);
         setError(null);
-        const [a, b] = await Promise.all([
-          searchMovies("batman", controller.signal),
-          searchMovies("marvel", controller.signal),
+        const [p1, p2] = await Promise.all([
+        getPopularMovies(controller.signal, 1),
+        getPopularMovies(controller.signal, 2),
         ]);
-        const unique = [...new Map([...a, ...b].map((m) => [m.imdbID, m])).values()];
-        setApiMovies(unique);
-      } catch (err) {
+        setApiMovies([...p1, ...p2]);
+    } catch (err) {
         if (err.name !== "AbortError") setError(err.message);
-      } finally {
+    } finally {
         if (!controller.signal.aborted) setLoading(false);
-      }
+    }
     }
     load();
 
