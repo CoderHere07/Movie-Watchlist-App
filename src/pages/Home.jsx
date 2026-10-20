@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { getPopularMovies, searchMovies } from "../api/tmdb";
-import { useWatchlist } from "../context/WatchListContext";
+import { useWatchlist } from "../context/WatchlistContext";
 import SearchBar from "../components/SearchBar";
 import MovieList from "../components/MovieList";
 import AddMovieForm from "../components/AddMovieForm";
@@ -17,26 +17,25 @@ export default function Home() {
   const query = search.trim();
 
   useEffect(() => {
-    const controller = new AbortController();
+    let ignore = false;
 
     async function load() {
       try {
         setPopularLoading(true);
         setError(null);
-        const [p1, p2] = await Promise.all([
-          getPopularMovies(controller.signal, 1),
-          getPopularMovies(controller.signal, 2),
-        ]);
-        setPopular([...p1, ...p2]);
+        const [p1, p2] = await Promise.all([getPopularMovies(1), getPopularMovies(2)]);
+        if (!ignore) setPopular([...p1, ...p2]);
       } catch (err) {
-        if (err.name !== "AbortError") setError(err.message);
+        if (!ignore) setError(err.message);
       } finally {
-        if (!controller.signal.aborted) setPopularLoading(false);
+        if (!ignore) setPopularLoading(false);
       }
     }
     load();
 
-    return () => controller.abort();
+    return () => {
+      ignore = true;
+    };
   }, []);
 
   
@@ -47,24 +46,24 @@ export default function Home() {
       return;
     }
 
+    let ignore = false;
     setSearching(true);
     setError(null);
-    const controller = new AbortController();
 
     const timer = setTimeout(async () => {
       try {
-        const data = await searchMovies(query, controller.signal);
-        setResults(data);
+        const data = await searchMovies(query);
+        if (!ignore) setResults(data);
       } catch (err) {
-        if (err.name !== "AbortError") setError(err.message);
+        if (!ignore) setError(err.message);
       } finally {
-        if (!controller.signal.aborted) setSearching(false);
+        if (!ignore) setSearching(false);
       }
     }, 500);
 
     return () => {
+      ignore = true;
       clearTimeout(timer);
-      controller.abort();
     };
   }, [query]);
 
@@ -74,8 +73,7 @@ export default function Home() {
     const customMatches = q
       ? customMovies.filter((m) => m.Title.toLowerCase().includes(q))
       : customMovies;
-    const apiList = q ? results : popular;
-    return [...customMatches, ...apiList];
+    return [...customMatches, ...(q ? results : popular)];
   }, [customMovies, popular, results, query]);
 
   const loading = query ? searching : popularLoading;
