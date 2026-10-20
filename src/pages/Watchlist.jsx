@@ -1,5 +1,5 @@
 import MovieList from "../components/MovieList";
-import { useWatchlist } from "../context/WatchlistContext";
+import { useWatchlist } from "../context/WatchlistContext.jsx";
 
 export default function Watchlist() {
   const { watchlist, watchlistCount } = useWatchlist();

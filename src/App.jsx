@@ -1,9 +1,9 @@
 import { Route, Routes } from "react-router-dom";
-import Navbar from "./components/Navbar";
-import Home from "./pages/Home";
-import MovieDetails from "./pages/MovieDetails";
-import Watchlist from "./pages/WatchList";
-import { useWatchlist } from "./context/WatchlistContext";
+import Navbar from "./components/Navbar.jsx";
+import Home from "./pages/Home.jsx";
+import MovieDetails from "./pages/MovieDetails.jsx";
+import Watchlist from "./pages/WatchList.jsx";
+import { useWatchlist } from "./context/WatchlistContext.jsx";
 
 export default function App() {
   const { watchlistCount } = useWatchlist();

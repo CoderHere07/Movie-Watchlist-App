@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { getMovieById } from "../api/tmdb";
-import { useWatchlist } from "../context/WatchlistContext";
+import { getMovieById } from "../api/tmdb.js";
+import { useWatchlist } from "../context/WatchlistContext.jsx";
 
 export default function MovieDetails() {
   const { id } = useParams();

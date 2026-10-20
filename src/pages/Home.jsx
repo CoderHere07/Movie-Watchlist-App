@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
-import { getPopularMovies, searchMovies } from "../api/tmdb";
-import { useWatchlist } from "../context/WatchlistContext";
-import SearchBar from "../components/SearchBar";
-import MovieList from "../components/MovieList";
-import AddMovieForm from "../components/AddMovieForm";
+import { getPopularMovies, searchMovies } from "../api/tmdb.js";
+import { useWatchlist } from "../context/WatchlistContext.jsx";
+import SearchBar from "../components/SearchBar.jsx";
+import MovieList from "../components/MovieList.jsx";
+import AddMovieForm from "../components/AddMovieForm.jsx";
 
 export default function Home() {
   const [popular, setPopular] = useState([]);

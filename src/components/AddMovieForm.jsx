@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useWatchlist } from "../context/WatchlistContext";
+import { useWatchlist } from "../context/WatchlistContext.jsx";
 
 const initial = { title: "", year: "", rating: "" };
 
