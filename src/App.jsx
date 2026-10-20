@@ -2,7 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import Navbar from "./components/Navbar.jsx";
 import Home from "./pages/Home.jsx";
 import MovieDetails from "./pages/MovieDetails.jsx";
-import Watchlist from "./pages/WatchList.jsx";
+import Watchlist from "./pages/Watchlist.jsx";
 import { useWatchlist } from "./context/WatchlistContext.jsx";
 
 export default function App() {
