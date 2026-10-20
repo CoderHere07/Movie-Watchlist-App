@@ -3,7 +3,7 @@ import { useWatchlist } from "../context/WatchlistContext";
 
 const initial = { title: "", year: "", rating: "" };
 
-export default function AddMovieForm() {
+export default function AddMovieForm({ onClose }) {
   const { addCustomMovie } = useWatchlist();
   const [form, setForm] = useState(initial);
   const [errors, setErrors] = useState({});
@@ -16,13 +16,13 @@ export default function AddMovieForm() {
   const validate = () => {
     const errs = {};
     const thisYear = new Date().getFullYear();
-    if (form.title.trim().length < 2) errs.title = "Title atleast consist 2 characters";
+    if (form.title.trim().length < 2) errs.title = "Title kam az kam 2 characters ka ho";
     const y = Number(form.year);
     if (!Number.isInteger(y) || y < 1888 || y > thisYear + 1)
-      errs.year = `Year must btw 1888 to ${thisYear + 1} `;
+      errs.year = `Year 1888 se ${thisYear + 1} ke darmiyan ho`;
     const r = Number(form.rating);
     if (form.rating === "" || Number.isNaN(r) || r < 0 || r > 10)
-      errs.rating = "Rating must btw 0 to 10";
+      errs.rating = "Rating 0 se 10 ke darmiyan ho";
     return errs;
   };
 
@@ -41,6 +41,7 @@ export default function AddMovieForm() {
       isCustom: true,
     });
     setForm(initial);
+    onClose?.();
   };
 
   return (
@@ -58,7 +59,12 @@ export default function AddMovieForm() {
         <input name="rating" type="number" step="0.1" placeholder="Rating (0-10)" value={form.rating} onChange={handleChange} />
         {errors.rating && <small className="error">{errors.rating}</small>}
       </div>
-      <button type="submit">Add Movie</button>
+      <div className="form-actions">
+        <button type="submit">Add Movie</button>
+        <button type="button" className="secondary" onClick={onClose}>
+          Cancel
+        </button>
+      </div>
     </form>
   );
 }

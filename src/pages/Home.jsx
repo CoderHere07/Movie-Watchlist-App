@@ -9,6 +9,7 @@ export default function Home() {
   const [popular, setPopular] = useState([]);
   const [results, setResults] = useState([]);
   const [search, setSearch] = useState("");
+  const [showForm, setShowForm] = useState(false);
   const [popularLoading, setPopularLoading] = useState(true);
   const [searching, setSearching] = useState(false);
   const [error, setError] = useState(null);
@@ -38,7 +39,6 @@ export default function Home() {
     };
   }, []);
 
-  
   useEffect(() => {
     if (!query) {
       setResults([]);
@@ -67,24 +67,25 @@ export default function Home() {
     };
   }, [query]);
 
-  
   const movies = useMemo(() => {
     const q = query.toLowerCase();
     const customMatches = q
       ? customMovies.filter((m) => m.Title.toLowerCase().includes(q))
       : customMovies;
-    const uniqueMovies = new Map();
-    for (const movie of [...customMatches, ...(q ? results : popular)]) {
-      if (!uniqueMovies.has(movie.imdbID)) uniqueMovies.set(movie.imdbID, movie);
-    }
-    return [...uniqueMovies.values()];
+    return [...customMatches, ...(q ? results : popular)];
   }, [customMovies, popular, results, query]);
 
   const loading = query ? searching : popularLoading;
 
   return (
     <div>
-      <AddMovieForm />
+      {showForm ? (
+        <AddMovieForm onClose={() => setShowForm(false)} />
+      ) : (
+        <button className="add-btn" onClick={() => setShowForm(true)}>
+          + Add Custom Movie
+        </button>
+      )}
       <SearchBar value={search} onChange={setSearch} />
       {loading && <p className="status">Loading...</p>}
       {error && <p className="status error">Error: {error}</p>}

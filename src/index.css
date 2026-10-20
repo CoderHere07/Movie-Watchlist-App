@@ -72,6 +72,8 @@ button {
 button.danger { 
   background: #dc2626; 
 }
+button.secondary { background: #374151; }
+.add-btn { margin-bottom: 8px; }
 
 .grid { 
   display: grid; 
@@ -131,3 +133,4 @@ button.danger {
   max-width: 280px; 
   border-radius: 8px; 
 }
+.form-actions { flex-direction: row !important; gap: 8px; }
