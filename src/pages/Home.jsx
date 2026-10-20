@@ -73,7 +73,11 @@ export default function Home() {
     const customMatches = q
       ? customMovies.filter((m) => m.Title.toLowerCase().includes(q))
       : customMovies;
-    return [...customMatches, ...(q ? results : popular)];
+    const uniqueMovies = new Map();
+    for (const movie of [...customMatches, ...(q ? results : popular)]) {
+      if (!uniqueMovies.has(movie.imdbID)) uniqueMovies.set(movie.imdbID, movie);
+    }
+    return [...uniqueMovies.values()];
   }, [customMovies, popular, results, query]);
 
   const loading = query ? searching : popularLoading;

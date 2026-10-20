@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useWatchlist } from "../context/WatchListContext";
+import { useWatchlist } from "../context/WatchlistContext";
 
 export default function MovieCard({ movie }) {
   const { watchlist, addToWatchlist, removeFromWatchlist } = useWatchlist();
