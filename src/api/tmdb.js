@@ -14,25 +14,25 @@ function normalize(m) {
   };
 }
 
-async function request(path, signal) {
-  const res = await fetch(`${BASE_URL}${path}${path.includes("?") ? "&" : "?"}api_key=${API_KEY}`, { signal });
+async function request(path) {
+  const res = await fetch(`${BASE_URL}${path}${path.includes("?") ? "&" : "?"}api_key=${API_KEY}`);
   if (res.status === 401) throw new Error("Invalid API key");
   if (res.status === 404) throw new Error("Movie not found");
   if (!res.ok) throw new Error("Network error");
   return res.json();
 }
 
-export async function getPopularMovies(signal, page = 1) {
-  const data = await request(`/movie/popular?page=${page}`, signal);
+export async function getPopularMovies(page = 1) {
+  const data = await request(`/movie/popular?page=${page}`);
   return data.results.map(normalize);
 }
 
-export async function searchMovies(query, signal) {
-  const data = await request(`/search/movie?query=${encodeURIComponent(query)}`, signal);
+export async function searchMovies(query) {
+  const data = await request(`/search/movie?query=${encodeURIComponent(query)}`);
   return data.results.map(normalize);
 }
 
-export async function getMovieById(id, signal) {
-  const data = await request(`/movie/${id}`, signal);
+export async function getMovieById(id) {
+  const data = await request(`/movie/${id}`);
   return normalize(data);
 }
