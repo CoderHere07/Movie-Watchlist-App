@@ -6,6 +6,7 @@ import Watchlist from "./pages/Watchlist.jsx";
 import { useWatchlist } from "./context/WatchlistContext.jsx";
 
 export default function App() {
+  
   const { watchlistCount } = useWatchlist();
   return (
     <>
